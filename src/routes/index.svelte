@@ -3,57 +3,28 @@
 </script>
 
 <script lang="ts">
-	import Counter from '$lib/Counter.svelte';
+	import axios from 'axios';
+	import MdAddCircleOutline from 'svelte-icons/md/MdAddCircleOutline.svelte';
+
+	import { getContext, onMount } from 'svelte';
+	import type { projectWithMilestones } from 'src/types/project';
+	import MilestoneLine from '$lib/components/milestone-line.svelte';
+	import { responseToObject } from '$lib/requesttools';
+import type { ProjectsStore } from '$lib/stores/projects';
+	const projectsStore = getContext<SvelteStore<ProjectsStore>>('projects');
+
+	const addMilestone = (projectId: number) => {
+		let title = prompt('Title of the milestone');
+		if(title)
+			axios.post(`/api/projects/${projectId}/milestones`, { title: title });
+	};
 </script>
 
 <svelte:head>
 	<title>Home</title>
 </svelte:head>
 
-<section>
-	<h1>
-		<div class="welcome">
-			<picture>
-				<source srcset="svelte-welcome.webp" type="image/webp" />
-				<img src="svelte-welcome.png" alt="Welcome" />
-			</picture>
-		</div>
-
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/index.svelte</strong>
-	</h2>
-
-	<Counter />
-</section>
-
-<style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 1;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
-</style>
+	
+	<div class="flex flex-col bg-gray-200 flex-1 justify-center items-center">
+	Select a project
+</div>

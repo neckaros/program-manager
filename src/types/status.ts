@@ -1,0 +1,1 @@
+export enum Status {good = 0, amber = 1, alert = 2}
